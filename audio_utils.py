@@ -19,7 +19,7 @@ class Sample:
     def get_data(self):
         return np.array(self.sig.get_array_of_samples())
         
-    def resample(self, new_bit_rate = 4, new_frame_rate = 24000):
+    def resample(self, new_bit_rate = 2, new_frame_rate = 22050):
         self.sig = self.sig.set_sample_width(new_bit_rate)
         self.sig = self.sig.set_frame_rate(new_frame_rate)
         

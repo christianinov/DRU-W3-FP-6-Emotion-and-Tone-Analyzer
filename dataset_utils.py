@@ -1,6 +1,7 @@
 import numpy as np
 import os
-from scipy.io import wavfile
+# from scipy.io import wavfile
+from audio_utils import Sample
 
 class Dataset:
 
@@ -23,11 +24,16 @@ class Dataset:
         for category_N, category in self.categories.items():
             waves = [f for f in os.listdir(self.directory + category) if f.endswith('.wav')]
             for wav in waves:
-                try:
-                    rate, sig = wavfile.read(self.directory + category + '/' + wav)
-                except ValueError:
-                    print('Bad sample: ' + self.directory + category + '/' + wav)
-                    continue
+                sample = Sample(self.directory + category + '/' + wav)
+                sample.resample()
+                sample.remove_silence()
+                rate, sig = sample.get_sample_rate(), sample.get_data()
+                # try:
+
+                #     rate, sig = wavfile.read(self.directory + category + '/' + wav)
+                # except ValueError:
+                #     print('Bad sample: ' + self.directory + category + '/' + wav)
+                #     continue
                 mfcc_mean, mfcc_std = self.feature_extraction_function(sig, rate)
                 features = np.concatenate((mfcc_mean, mfcc_std, [category_N]))
                 self.dataset.append(features)
