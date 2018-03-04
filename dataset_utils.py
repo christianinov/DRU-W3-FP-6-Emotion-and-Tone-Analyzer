@@ -34,8 +34,8 @@ class Dataset:
                 # except ValueError:
                 #     print('Bad sample: ' + self.directory + category + '/' + wav)
                 #     continue
-                mfcc_mean, mfcc_std = self.feature_extraction_function(sig, rate)
-                features = np.concatenate((mfcc_mean, mfcc_std, [category_N]))
+                mfcc_mean, mfcc_std, logfbank_mean, logfbank_std = self.feature_extraction_function(sig, rate)
+                features = np.concatenate((mfcc_mean, mfcc_std, logfbank_mean, logfbank_std, [category_N]))
                 self.dataset.append(features)
         self.dataset = np.asarray(self.dataset)
         
