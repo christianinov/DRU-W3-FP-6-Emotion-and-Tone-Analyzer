@@ -1,4 +1,4 @@
-from python_speech_features import mfcc
+from python_speech_features import mfcc, logfbank
 
 def features_extraction(sig, rate, numcep=26, nfft=2048, **kwargs):
     """Compute mean and standard deviation of each MFCCs from an audio signal.
@@ -20,4 +20,7 @@ def features_extraction(sig, rate, numcep=26, nfft=2048, **kwargs):
     mfcc_feat = mfcc(sig, rate, numcep=numcep, nfft=nfft, **kwargs)
     mfcc_mean = mfcc_feat.mean(axis=0)
     mfcc_std = mfcc_feat.std(axis=0)
-    return mfcc_mean, mfcc_std
+    logfbank_feat = logfbank(sig, rate, nfft=nfft, **kwargs)
+    logfbank_mean = logfbank_feat.mean(axis=0)
+    logfbank_std = logfbank_feat.std(axis=0)
+    return mfcc_mean, mfcc_std, logfbank_mean, logfbank_std
